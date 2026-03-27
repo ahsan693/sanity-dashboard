@@ -1,0 +1,11 @@
+make,model,year,price,mileage,fuelType,transmission,color,engineSize,bodyType,description,status,featured,nctExpiry,owners
+Honda,Civic,2020,15000,45000,Petrol,Automatic,Silver,1.5,Saloon,Well-maintained sedan with full service history,available,true,2026-12-31,1
+Toyota,Corolla,2019,12000,62000,Diesel,Manual,Black,1.2,Saloon,Reliable and fuel-efficient,available,false,2026-06-15,2
+BMW,X5,2021,45000,28000,Hybrid,Automatic,White,3.0,SUV,Luxury model with premium features,available,true,2027-03-20,1
+Mercedes,C-Class,2018,35000,75000,Petrol,Automatic,Blue,2.0,Saloon,Excellent condition,available,false,2026-09-10,3
+Audi,A4,2022,40000,15000,Diesel,Automatic,Grey,2.0,Saloon,Almost new with warranty,available,true,2027-08-05,0
+Volkswagen,Golf,2019,13000,55000,Petrol,Manual,Red,1.4,Hatchback,Fun and economical,available,false,2026-04-22,2
+Hyundai,Tucson,2020,18000,48000,Petrol,Automatic,Silver,2.0,SUV,Spacious family SUV,available,true,2026-11-30,1
+Mazda,CX-5,2021,25000,32000,Diesel,Automatic,Black,2.2,SUV,Great handling and comfort,available,false,2027-05-15,2
+Ford,Focus,2018,11000,70000,Petrol,Manual,White,1.6,Hatchback,Good value for money,available,true,2026-03-10,4
+Peugeot,3008,2020,22000,50000,Petrol,Automatic,Blue,1.6,SUV,Modern design and tech,available,false,2026-08-20,2

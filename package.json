@@ -1,0 +1,22 @@
+{
+  "name": "indus-motor-group-studio",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "start": "sanity start"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.15.0",
+    "@sanity/vision": "^5.18.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.51.0",
+    "styled-components": "^6.3.12"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
+  }
+}
