@@ -9,7 +9,8 @@
     "start": "sanity start"
   },
   "dependencies": {
-    "@sanity/client": "^6.15.0",
+    "@sanity/client": "^7.20.0",
+    "@sanity/preview-url-secret": "^2.1.16",
     "@sanity/vision": "^5.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
