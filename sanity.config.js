@@ -7,7 +7,7 @@ import bulkCarImportPlugin from './plugins/bulkCarImport.jsx'
 export default defineConfig({
   name: 'indus_motor_group_studio',
   title: 'Indus Motor Group Studio',
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'Replace_With_Your_Project_ID',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'en832qbs',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   basePath: '/studio',
   plugins: [
