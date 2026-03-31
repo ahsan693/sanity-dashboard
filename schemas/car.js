@@ -1,3 +1,42 @@
+const interiorComfortFeatures = [
+  { title: 'Air Conditioning', value: 'airConditioning' },
+  { title: 'Centre Armrest', value: 'centreArmrest' },
+  { title: 'Climate Control', value: 'climateControl' },
+  { title: 'Electric Seats', value: 'electricSeats' },
+  { title: 'Electric Windows', value: 'electricWindows' },
+  { title: 'Folding Rear Seats', value: 'foldingRearSeats' },
+  { title: 'Heated Front Seats', value: 'heatedFrontSeats' },
+  { title: 'Sunroof', value: 'sunroof' }
+]
+
+const safetySecurityFeatures = [
+  { title: 'Anti-Theft System', value: 'antiTheftSystem' },
+  { title: 'Automatic Wipers', value: 'automaticWipers' },
+  { title: 'Brake Assist System', value: 'brakeAssistSystem' },
+  { title: 'Central Locking', value: 'centralLocking' },
+  { title: 'Daytime Running Lights', value: 'daytimeRunningLights' },
+  { title: 'EBD (Electronic Brakeforce Distribution)', value: 'ebd' },
+  { title: 'Hill-Start Assist', value: 'hillStartAssist' },
+  { title: 'Traction Control', value: 'tractionControl' }
+]
+
+const techDriverAssistFeatures = [
+  { title: 'Bluetooth', value: 'bluetooth' },
+  { title: 'Cruise Control', value: 'cruiseControl' },
+  { title: 'Electronic Handbrake', value: 'electronicHandbrake' },
+  { title: 'Multi-Function Steering Wheel', value: 'multiFunctionSteeringWheel' },
+  { title: 'Parking Sensors', value: 'parkingSensors' },
+  { title: 'Sat Nav', value: 'satNav' },
+  { title: 'Selectable Drive Mode', value: 'selectableDriveMode' },
+  { title: 'Stop / Start Button', value: 'stopStartButton' }
+]
+
+const exteriorStylingFeatures = [
+  { title: 'Alloy Wheels', value: 'alloyWheels' },
+  { title: 'Metallic Paint', value: 'metallicPaint' },
+  { title: 'Rear Spoiler', value: 'rearSpoiler' }
+]
+
 export default {
   name: 'car',
   title: 'Car',
@@ -36,6 +75,18 @@ export default {
       readOnly: false
     },
     {
+      name: 'seats',
+      title: 'Seats',
+      type: 'number',
+      readOnly: false
+    },
+    {
+      name: 'doors',
+      title: 'Doors',
+      type: 'number',
+      readOnly: false
+    },
+    {
       name: 'fuelType',
       title: 'Fuel Type',
       type: 'string',
@@ -57,7 +108,7 @@ export default {
     },
     {
       name: 'color',
-      title: 'Color',
+      title: 'Colour',
       type: 'string',
       readOnly: false
     },
@@ -68,12 +119,82 @@ export default {
       readOnly: false
     },
     {
+      name: 'enginePower',
+      title: 'Engine Power (BHP)',
+      type: 'number',
+      readOnly: false
+    },
+    {
+      name: 'co2Emissions',
+      title: 'CO2 Emissions (g/km)',
+      type: 'number',
+      readOnly: false
+    },
+    {
+      name: 'roadTax',
+      title: 'Road Tax (€ / year)',
+      type: 'number',
+      readOnly: false
+    },
+    {
       name: 'bodyType',
       title: 'Body Type',
       type: 'string',
       options: {
         list: ['Saloon', 'SUV', 'Hatchback', 'Estate', 'Coupe', 'Convertible', 'Van'],
         layout: 'radio'
+      },
+      readOnly: false
+    },
+    {
+      name: 'features',
+      title: 'Features',
+      description: 'Select only the features this vehicle has.',
+      type: 'object',
+      fields: [
+        {
+          name: 'interiorComfort',
+          title: 'Interior & Comfort',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: {
+            list: interiorComfortFeatures
+          },
+          validation: (Rule) => Rule.unique()
+        },
+        {
+          name: 'safetySecurity',
+          title: 'Safety & Security',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: {
+            list: safetySecurityFeatures
+          },
+          validation: (Rule) => Rule.unique()
+        },
+        {
+          name: 'technologyDriverAssistance',
+          title: 'Technology & Driver Assistance',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: {
+            list: techDriverAssistFeatures
+          },
+          validation: (Rule) => Rule.unique()
+        },
+        {
+          name: 'exteriorStyling',
+          title: 'Exterior & Styling',
+          type: 'array',
+          of: [{ type: 'string' }],
+          options: {
+            list: exteriorStylingFeatures
+          },
+          validation: (Rule) => Rule.unique()
+        }
+      ],
+      options: {
+        collapsible: true
       },
       readOnly: false
     },
@@ -121,13 +242,13 @@ export default {
     },
     {
       name: 'nctExpiry',
-      title: 'NCT Expiry Date',
+      title: 'NCT Due',
       type: 'date',
       readOnly: false
     },
     {
       name: 'owners',
-      title: 'Number of Previous Owners',
+      title: 'Previous Owners',
       type: 'number',
       readOnly: false
     },
