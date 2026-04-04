@@ -1,0 +1,18 @@
+/*
+	Keep collapsed desk panes readable: show horizontal sidebar labels
+	instead of rotated vertical text.
+*/
+[data-ui='Pane'][data-pane-collapsed] {
+	min-width: 180px !important;
+	width: 180px !important;
+}
+
+[data-testid='pane-header'][data-collapsed] [style*='transform-origin'] {
+	transform: none !important;
+	width: auto !important;
+}
+
+[data-testid='pane-header'][data-collapsed] [data-ui='Text'] {
+	writing-mode: horizontal-tb !important;
+	text-orientation: mixed !important;
+}

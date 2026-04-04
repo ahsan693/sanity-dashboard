@@ -1,3 +1,5 @@
+import FeaturedToggleInput from '../src/components/FeaturedToggleInput'
+
 const interiorComfortFeatures = [
   { title: 'Air Conditioning', value: 'airConditioning' },
   { title: 'Centre Armrest', value: 'centreArmrest' },
@@ -36,6 +38,10 @@ const exteriorStylingFeatures = [
   { title: 'Metallic Paint', value: 'metallicPaint' },
   { title: 'Rear Spoiler', value: 'rearSpoiler' }
 ]
+
+const FEATURED_SLOTS = [1, 2, 3, 4]
+
+const normalizeCarId = (id) => (typeof id === 'string' ? id.replace(/^drafts\./, '') : '')
 
 export default {
   name: 'car',
@@ -237,7 +243,71 @@ export default {
       name: 'featured',
       title: 'Featured on homepage?',
       type: 'boolean',
+      description: 'Select this car to appear in Featured Cars on the homepage (maximum 4 cars).',
+      components: {
+        input: FeaturedToggleInput
+      },
       initialValue: false,
+      validation: (Rule) =>
+        Rule.custom(async (isFeatured, context) => {
+          if (!isFeatured) return true
+
+          const client = context.getClient({ apiVersion: '2024-01-01' })
+          const currentLogicalId = normalizeCarId(context.document?._id)
+          const featuredDocs = await client.fetch(
+            `*[_type == "car" && featured == true && defined(featuredOrder) && featuredOrder in $slots]{_id}`,
+            { slots: FEATURED_SLOTS }
+          )
+
+          const featuredOtherCarsCount = new Set(
+            featuredDocs
+              .map((doc) => normalizeCarId(doc._id))
+              .filter((id) => id && id !== currentLogicalId)
+          ).size
+
+          if (featuredOtherCarsCount >= 4) {
+            return 'Only 4 cars can be featured at a time. Unfeature another car first.'
+          }
+
+          return true
+        }),
+      readOnly: false
+    },
+    {
+      name: 'featuredOrder',
+      title: 'Featured Car Number',
+      type: 'number',
+      description: 'Set display slot for homepage featured cars (1 to 4).',
+      options: {
+        list: FEATURED_SLOTS.map((slot) => ({ title: `Featured Car ${slot}`, value: slot })),
+        layout: 'radio'
+      },
+      hidden: ({ document }) => !document?.featured,
+      validation: (Rule) =>
+        Rule.custom(async (value, context) => {
+          const isFeatured = Boolean(context.document?.featured)
+
+          if (!isFeatured) return true
+
+          if (!FEATURED_SLOTS.includes(value)) {
+            return 'Select a Featured Car Number from 1 to 4.'
+          }
+
+          const client = context.getClient({ apiVersion: '2024-01-01' })
+          const currentLogicalId = normalizeCarId(context.document?._id)
+          const featuredDocs = await client.fetch(`*[_type == "car" && featured == true && defined(featuredOrder)]{_id, featuredOrder}`)
+
+          const hasConflict = featuredDocs.some((doc) => {
+            const docLogicalId = normalizeCarId(doc._id)
+            return docLogicalId !== currentLogicalId && doc.featuredOrder === value
+          })
+
+          if (hasConflict) {
+            return `Featured Car ${value} is already assigned. Choose another number.`
+          }
+
+          return true
+        }),
       readOnly: false
     },
     {
@@ -257,7 +327,19 @@ export default {
     select: {
       title: 'make',
       subtitle: 'model',
-      media: 'images.0'
+      images: 'images',
+      featured: 'featured',
+      featuredOrder: 'featuredOrder'
+    },
+    prepare({ title, subtitle, images, featured, featuredOrder }) {
+      const media = Array.isArray(images) && images.length > 0 ? images[0] : undefined
+      const suffix = featured && FEATURED_SLOTS.includes(featuredOrder) ? ` • Featured Car ${featuredOrder}` : ''
+
+      return {
+        title,
+        subtitle: `${subtitle || ''}${suffix}`,
+        media
+      }
     }
   },
   __experimental_actions: ['create', 'update', 'publish', 'delete']
